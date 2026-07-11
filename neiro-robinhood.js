@@ -7,6 +7,14 @@
   const CA = "0x00aF23339838240bA3bb42E424936B521d31041f";
   const OWNER_ADDRESS = "0xc2413696576176d1e31D55a2DEdA609906a15596";
   const SWAP_URL = "https://app.uniswap.org/swap?outputCurrency=" + CA + "&chain=robinhood";
+  const ROBINHOOD_CHAIN_ID = "0x7e9";
+  const ROBINHOOD_CHAIN_PARAMS = {
+    chainId: ROBINHOOD_CHAIN_ID,
+    chainName: "Robinhood Chain",
+    nativeCurrency: { name: "Robinhood", symbol: "ROH", decimals: 18 },
+    rpcUrls: ["https://mainnet.robinhoodchain.com"],
+    blockExplorerUrls: ["https://explorer.robinhoodchain.com"]
+  };
   const walletAddressEl = document.getElementById('walletAddress');
   const walletBalanceEl = document.getElementById('walletBalance');
   const walletRoleEl = document.getElementById('walletRole');
@@ -44,12 +52,41 @@
     return parseFloat(ethers.utils.formatUnits(balance, decimals)).toLocaleString(undefined, {maximumFractionDigits: 6});
   }
 
+  async function ensureRobinhoodChain(){
+    if(!window.ethereum || !provider) return false;
+    try{
+      const network = await provider.getNetwork();
+      if(network.chainId === 2025) return true;
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: ROBINHOOD_CHAIN_ID }]
+      });
+      return true;
+    }catch(err){
+      try{
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [ROBINHOOD_CHAIN_PARAMS]
+        });
+        return true;
+      }catch(addErr){
+        console.error('Robinhood chain setup failed', addErr);
+        return false;
+      }
+    }
+  }
+
   async function updateBalance(){
     if(!provider || !signer){
       setDisconnectedState();
       return;
     }
     try{
+      const chainReady = await ensureRobinhoodChain();
+      if(!chainReady){
+        setWalletMessage('Switch to Robinhood Chain in your wallet to read your $NEIRO balance.');
+        return;
+      }
       const network = await provider.getNetwork();
       const chainName = network.name || 'unknown';
       const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, provider);
@@ -60,7 +97,7 @@
       if(isOwner){
         setWalletMessage('Owner access granted. Admin controls will be available here for owner-only actions.');
       } else {
-        setWalletMessage('Connected in read-only mode. Only the owner can operate the dapp controls.');
+        setWalletMessage('Connected on ' + chainName + '. Your $NEIRO balance is visible for bot-traded holdings as well.');
       }
     }catch(err){
       if(walletBalanceEl){
