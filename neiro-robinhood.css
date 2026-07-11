@@ -290,6 +290,19 @@
   .step .step-link{display:inline-block;margin-top:12px;color:var(--green);font-weight:600;font-size:14px;text-decoration:none;cursor:pointer}
   .step .step-link:hover{text-decoration:underline}
 
+  .wallet-card{
+    display:grid;grid-template-columns:1fr auto;gap:22px;margin-top:28px;padding:24px;border:1px solid rgba(0,200,5,.14);
+    border-radius:24px;background:rgba(4,10,11,.96);box-shadow:0 20px 48px rgba(0,0,0,.28);
+  }
+  .wallet-copy{max-width:58ch}
+  .wallet-title{font-family:'Fredoka', 'Unbounded', sans-serif;font-size:20px;font-weight:700;margin-bottom:10px;color:var(--text)}
+  .wallet-card p{color:var(--dim);line-height:1.65}
+  .wallet-action{display:flex;flex-direction:column;gap:12px;min-width:260px}
+  .wallet-line{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim);word-break:break-all}
+  .wallet-line strong{color:var(--text);font-family:'Fredoka',sans-serif}
+  .wallet-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .wallet-note{color:var(--dim);font-size:13px;line-height:1.5;margin-top:6px}
+
   /* ---------- Creed ---------- */
   #creed{text-align:center}
   .creed-lines{max-width:780px;margin:0 auto}

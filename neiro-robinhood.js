@@ -6,6 +6,82 @@
 
   const CA = "0x00aF23339838240bA3bb42E424936B521d31041f";
   const SWAP_URL = "https://app.uniswap.org/swap?outputCurrency=" + CA + "&chain=robinhood";
+  const walletAddressEl = document.getElementById('walletAddress');
+  const walletBalanceEl = document.getElementById('walletBalance');
+  const walletNoteEl = document.getElementById('walletNote');
+  const connectWalletBtn = document.getElementById('connectWallet');
+  const refreshBalanceBtn = document.getElementById('refreshBalance');
+  const TOKEN_ABI = [
+    "function balanceOf(address account) view returns (uint256)",
+    "function decimals() view returns (uint8)"
+  ];
+  const TOKEN_ADDRESS = CA;
+  const provider = window.ethereum ? new ethers.providers.Web3Provider(window.ethereum, 'any') : null;
+  let signer = null;
+
+  async function setWalletMessage(message){
+    if(walletNoteEl) walletNoteEl.textContent = message;
+  }
+
+  async function formatBalance(balance, decimals){
+    return parseFloat(ethers.utils.formatUnits(balance, decimals)).toLocaleString(undefined, {maximumFractionDigits: 6});
+  }
+
+  async function updateBalance(){
+    if(!provider || !signer){
+      setWalletMessage('Connect a wallet to display your $NEIRO balance.');
+      return;
+    }
+    try{
+      const network = await provider.getNetwork();
+      const chainName = network.name || 'unknown';
+      const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+      const [decimals, rawBalance] = await Promise.all([contract.decimals(), contract.balanceOf(await signer.getAddress())]);
+      walletBalanceEl.textContent = (await formatBalance(rawBalance, decimals)) + ' $NEIRO';
+      setWalletMessage('Connected to ' + chainName + '. Balance updated.');
+    }catch(err){
+      walletBalanceEl.textContent = '0.0000 $NEIRO';
+      setWalletMessage('Unable to read token balance on this network. Switch to Robinhood Chain.');
+      console.error('Balance read error', err);
+    }
+  }
+
+  async function connectWallet(){
+    if(!window.ethereum){
+      setWalletMessage('No Ethereum wallet found. Install MetaMask, Rabby, or another EVM wallet.');
+      return;
+    }
+    try{
+      await provider.send('eth_requestAccounts', []);
+      signer = provider.getSigner();
+      const address = await signer.getAddress();
+      walletAddressEl.textContent = address;
+      updateBalance();
+    }catch(err){
+      console.error('Wallet connect failed', err);
+      setWalletMessage('Wallet connection was cancelled.');
+    }
+  }
+
+  if(connectWalletBtn){
+    connectWalletBtn.addEventListener('click', connectWallet);
+  }
+  if(refreshBalanceBtn){
+    refreshBalanceBtn.addEventListener('click', updateBalance);
+  }
+
+  if(window.ethereum){
+    window.ethereum.on('accountsChanged', async () => {
+      if(provider){
+        signer = provider.getSigner();
+        walletAddressEl.textContent = await signer.getAddress();
+        updateBalance();
+      }
+    });
+    window.ethereum.on('chainChanged', () => {
+      setWalletMessage('Network changed — reconnect to refresh your balance.');
+    });
+  }
 
   /* ================= THREE.JS — coins + rising candles ================= */
   const canvas = document.getElementById('webgl');

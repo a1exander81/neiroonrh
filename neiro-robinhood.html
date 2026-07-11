@@ -159,6 +159,21 @@
           <div class="stat reveal"><b>100%</b><small>Community-driven, no insider bags</small></div>
           <div class="stat reveal"><b>1.3B</b><small>Target path from the ETH Neiro playbook</small></div>
         </div>
+        <div class="wallet-card reveal">
+          <div class="wallet-copy">
+            <div class="wallet-title">Connect your wallet</div>
+            <p>See how much $NEIRO you hold on Robinhood Chain. Wallet connect unlocks future staking, miners and rewards.</p>
+          </div>
+          <div class="wallet-action">
+            <div class="wallet-line">Address: <span id="walletAddress">Not connected</span></div>
+            <div class="wallet-line">Balance: <strong id="walletBalance">0.0000 $NEIRO</strong></div>
+            <div class="wallet-actions">
+              <button id="connectWallet" class="btn btn-green">Connect Wallet</button>
+              <button id="refreshBalance" class="btn btn-ghost">Refresh</button>
+            </div>
+            <div class="wallet-note" id="walletNote">Connect with any EVM wallet and switch to Robinhood Chain for balance readout.</div>
+          </div>
+        </div>
         <div class="ca-bar reveal" style="justify-content:flex-start;margin-top:30px">
           <span class="ca-label">CA</span>
           <code>0x00aF23339838240bA3bb42E424936B521d31041f</code>
@@ -460,6 +475,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js" type="application/javascript"></script>
 <script src="neiro-robinhood.js"></script>
 </body>
 </html>
