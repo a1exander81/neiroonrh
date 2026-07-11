@@ -57,6 +57,7 @@
     <a href="#chart">Chart</a>
     <a href="#buy">How to Buy</a>
     <a href="#community">Community</a>
+    <button class="nav-cta connect-nav-btn" data-connect-wallet type="button">Connect</button>
     <button class="nav-cta" data-swap>Buy $NEIRO</button>
   </div>
 </nav>
@@ -161,18 +162,15 @@
         </div>
         <div class="wallet-card reveal">
           <div class="wallet-copy">
-            <div class="wallet-title">Connect your wallet</div>
-            <p>See how much $NEIRO you hold on Robinhood Chain. Wallet connect unlocks future staking, miners and rewards.</p>
+            <div class="wallet-title">Wallet balance</div>
+            <p>Track your $NEIRO balance on Robinhood Chain and jump into mining when it launches.</p>
           </div>
           <div class="wallet-action">
             <div class="wallet-line">Address: <span id="walletAddress">Not connected</span></div>
             <div class="wallet-line">Balance: <strong id="walletBalance">0.0000 $NEIRO</strong></div>
             <div class="wallet-line">Access: <strong id="walletRole">Read-only</strong></div>
-            <div class="wallet-actions">
-              <button id="connectWallet" class="btn btn-green">Connect Wallet</button>
-              <button id="refreshBalance" class="btn btn-ghost">Refresh</button>
-            </div>
-            <div class="wallet-note" id="walletNote">Connect with any EVM wallet and switch to Robinhood Chain for balance readout.</div>
+            <a href="mining.html" class="btn btn-green wallet-mining-btn">Mining</a>
+            <div class="wallet-note" id="walletNote">Connect your wallet to see your $NEIRO balance and the equivalent USDT value.</div>
           </div>
         </div>
         <div class="ca-bar reveal" style="justify-content:flex-start;margin-top:30px">

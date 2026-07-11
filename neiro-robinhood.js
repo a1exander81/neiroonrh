@@ -11,8 +11,8 @@
   const walletBalanceEl = document.getElementById('walletBalance');
   const walletRoleEl = document.getElementById('walletRole');
   const walletNoteEl = document.getElementById('walletNote');
+  const connectWalletBtns = Array.from(document.querySelectorAll('[data-connect-wallet]'));
   const connectWalletBtn = document.getElementById('connectWallet');
-  const refreshBalanceBtn = document.getElementById('refreshBalance');
   const TOKEN_ABI = [
     "function balanceOf(address account) view returns (uint256)",
     "function decimals() view returns (uint8)"
@@ -26,13 +26,27 @@
     if(walletNoteEl) walletNoteEl.textContent = message;
   }
 
+  function formatAddress(address){
+    if(!address) return 'Not connected';
+    const value = address.toString();
+    if(value.length <= 9) return value;
+    return `${value.slice(0,4)}…${value.slice(-5)}`;
+  }
+
+  function setDisconnectedState(){
+    if(walletAddressEl) walletAddressEl.textContent = 'Not connected';
+    if(walletBalanceEl) walletBalanceEl.textContent = '0.0000 $NEIRO';
+    if(walletRoleEl) walletRoleEl.textContent = 'Read-only';
+    setWalletMessage('Connect your wallet to see your $NEIRO balance and the equivalent USDT value.');
+  }
+
   async function formatBalance(balance, decimals){
     return parseFloat(ethers.utils.formatUnits(balance, decimals)).toLocaleString(undefined, {maximumFractionDigits: 6});
   }
 
   async function updateBalance(){
     if(!provider || !signer){
-      setWalletMessage('Connect a wallet to display your $NEIRO balance.');
+      setDisconnectedState();
       return;
     }
     try{
@@ -40,17 +54,29 @@
       const chainName = network.name || 'unknown';
       const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, provider);
       const [decimals, rawBalance] = await Promise.all([contract.decimals(), contract.balanceOf(await signer.getAddress())]);
-      walletBalanceEl.textContent = (await formatBalance(rawBalance, decimals)) + ' $NEIRO';
+      if(walletBalanceEl){
+        walletBalanceEl.textContent = (await formatBalance(rawBalance, decimals)) + ' $NEIRO';
+      }
       if(isOwner){
         setWalletMessage('Owner access granted. Admin controls will be available here for owner-only actions.');
       } else {
         setWalletMessage('Connected in read-only mode. Only the owner can operate the dapp controls.');
       }
     }catch(err){
-      walletBalanceEl.textContent = '0.0000 $NEIRO';
+      if(walletBalanceEl){
+        walletBalanceEl.textContent = '0.0000 $NEIRO';
+      }
       setWalletMessage('Unable to read token balance on this network. Switch to Robinhood Chain.');
       console.error('Balance read error', err);
     }
+  }
+
+  function setConnectButtonLabel(label){
+    connectWalletBtns.forEach((button) => {
+      if(button){
+        button.textContent = label;
+      }
+    });
   }
 
   async function connectWallet(){
@@ -62,31 +88,35 @@
       await provider.send('eth_requestAccounts', []);
       signer = provider.getSigner();
       const address = (await signer.getAddress()).toLowerCase();
-      walletAddressEl.textContent = address;
+      walletAddressEl.textContent = formatAddress(address);
       isOwner = address === OWNER_ADDRESS.toLowerCase();
       if(walletRoleEl){
         walletRoleEl.textContent = isOwner ? 'Owner' : 'Read-only';
       }
+      setConnectButtonLabel('Connected');
       updateBalance();
     }catch(err){
       console.error('Wallet connect failed', err);
       setWalletMessage('Wallet connection was cancelled.');
+      setConnectButtonLabel('Connect');
     }
   }
 
   if(connectWalletBtn){
     connectWalletBtn.addEventListener('click', connectWallet);
   }
-  if(refreshBalanceBtn){
-    refreshBalanceBtn.addEventListener('click', updateBalance);
-  }
+  connectWalletBtns.forEach((button) => {
+    if(button && button !== connectWalletBtn){
+      button.addEventListener('click', connectWallet);
+    }
+  });
 
   if(window.ethereum){
     window.ethereum.on('accountsChanged', async () => {
       if(provider){
         signer = provider.getSigner();
         const address = (await signer.getAddress()).toLowerCase();
-        walletAddressEl.textContent = address;
+        walletAddressEl.textContent = formatAddress(address);
         isOwner = address === OWNER_ADDRESS.toLowerCase();
         if(walletRoleEl){
           walletRoleEl.textContent = isOwner ? 'Owner' : 'Read-only';
