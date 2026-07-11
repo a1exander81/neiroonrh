@@ -7,13 +7,13 @@
   const CA = "0x00aF23339838240bA3bb42E424936B521d31041f";
   const OWNER_ADDRESS = "0xc2413696576176d1e31D55a2DEdA609906a15596";
   const SWAP_URL = "https://app.uniswap.org/swap?outputCurrency=" + CA + "&chain=robinhood";
-  const ROBINHOOD_CHAIN_ID = "0x7e9";
+  const ROBINHOOD_CHAIN_ID = "0x1233";
   const ROBINHOOD_CHAIN_PARAMS = {
     chainId: ROBINHOOD_CHAIN_ID,
     chainName: "Robinhood Chain",
-    nativeCurrency: { name: "Robinhood", symbol: "ROH", decimals: 18 },
-    rpcUrls: ["https://mainnet.robinhoodchain.com"],
-    blockExplorerUrls: ["https://explorer.robinhoodchain.com"]
+    nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://rpc.mainnet.chain.robinhood.com"],
+    blockExplorerUrls: ["https://robinhoodchain.blockscout.com"]
   };
   const walletAddressEl = document.getElementById('walletAddress');
   const walletBalanceEl = document.getElementById('walletBalance');
@@ -56,7 +56,7 @@
     if(!window.ethereum || !provider) return false;
     try{
       const network = await provider.getNetwork();
-      if(network.chainId === 2025) return true;
+      if(network.chainId === 4663) return true;
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: ROBINHOOD_CHAIN_ID }]
