@@ -1,16 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neiro Robinhood</title>
-  <meta http-equiv="refresh" content="0; url=/neiro-robinhood.html" />
-  <link rel="canonical" href="/neiro-robinhood.html" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neiro Robinhood — First Real Neiro Dog on Robinhood Chain</title>
+<meta name="description" content="$NEIRO — the first dog deployed on Robinhood Chain. Steals from the whales. Gives to the holders.">
+<link rel="icon" type="image/jpeg" href="assets/neiro%20circle.jpg">
+<link rel="stylesheet" href="neiro-robinhood.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
-<body style="margin:0;background:#06080B;color:#EAF2EC;font-family:Outfit, Arial, sans-serif;display:grid;place-items:center;min-height:100vh;">
-  <div style="text-align:center;">
-    <p>Redirecting to the Neiro Robinhood landing page…</p>
-    <p><a href="/neiro-robinhood.html" style="color:#00C805;">Open it directly</a></p>
+<body>
+
+<canvas id="webgl"></canvas>
+<div class="grid"></div>
+
+<!-- Parallax chart-ridge silhouettes -->
+<div class="ridge r-back" data-depth="0.12">
+  <svg viewBox="0 0 1440 240" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#0A1F12" d="M0 240V170l60-42 44 28 52-64 48 50 40-22 62-70 54 84 46-30 58 40 50-72 44 58 56-28 48 36 60-88 52 96 42-34 54 26 58-60 50 44 46-20 56 30 60-52 40 40V240Z"/>
+  </svg>
+</div>
+<div class="ridge r-mid" data-depth="0.28">
+  <svg viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#081712" d="M0 200V150l52-56 46 34 58-80 50 62 44-26 66-58 56 76 44-36 60 44 54-84 46 60 58-32 52 40 64-96 46 88 50-40 56 30 62-56 36 30V200Z"/>
+  </svg>
+</div>
+<div class="ridge r-front" data-depth="0.5">
+  <svg viewBox="0 0 1440 150" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#04090A" d="M0 150V110l66-70 54 44 62-58 52 46 48-30 70-40 60 62 48-38 66 40 58-64 50 46 62-26 56 32 68-70 50 58 54-32 66 26V150Z"/>
+  </svg>
+</div>
+
+<div class="vignette"></div>
+
+<!-- Flying green candle (scroll-driven) -->
+<svg id="candle-fly" viewBox="0 0 60 120" xmlns="http://www.w3.org/2000/svg">
+  <line x1="30" y1="0" x2="30" y2="120" stroke="#00C805" stroke-width="5" stroke-linecap="round"/>
+  <rect x="12" y="28" width="36" height="64" rx="7" fill="#00C805" stroke="#04120A" stroke-width="3"/>
+  <rect x="18" y="34" width="10" height="20" rx="4" fill="#3BE477" opacity=".8"/>
+</svg>
+
+<nav id="nav">
+  <a class="brand" href="#hero">
+    <span class="brand-mark">N</span>
+    <span class="brand-name">Neiro <span>Robinhood</span></span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#token">Token</a>
+    <a href="#chart">Chart</a>
+    <a href="#buy">How to Buy</a>
+    <a href="#community">Community</a>
+    <button class="nav-cta" data-swap>Buy $NEIRO</button>
   </div>
+</nav>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="hero-image-wrap">
+      <img class="hero-image" src="assets/neiro-header.jpg" alt="Neiro the Shiba Inu" />
+    </div>
+    <div class="hero-tag"><span class="live-dot"></span> LIVE ON ROBINHOOD CHAIN</div>
+    <h1>
+      <span class="line"><span class="line-inner">First Real Neiro Dog on</span></span>
+      <span class="line"><span class="line-inner up">Robinhood Chain</span></span>
+
+    </h1>
+    <p class="hero-sub">
+      $NEIRO has crossed the bridge. The same deployer behind the ETH Neiro is here on Robinhood Chain —
+      <b>the first real Neiro on this chain, aiming for the same 1.3B path.</b>
+    </p>
+    <div class="hero-ctas">
+      <button class="btn btn-green" data-swap>⇅ Buy on Uniswap v3</button>
+      <a class="btn btn-ghost" href="https://t.me/based_eth_bot?start=r_rentardio" target="_blank" rel="noopener">🤖 Buy via Based Bot</a>
+      <a class="btn btn-ghost" href="#chart">📈 View Chart</a>
+    </div>
+    <div class="ca-bar">
+      <span class="ca-label">CA</span>
+      <code id="ca">0x00aF23339838240bA3bb42E424936B521d31041f</code>
+      <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+    </div>
+    <div class="scroll-hint">Scroll — number go up</div>
+  </section>
+
+  <!-- ============ MARQUEES ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span>
+      <span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span><span>$NEIRO</span>
+    </div>
+  </div>
+  <div class="marquee reverse" aria-hidden="true">
+    <div class="marquee-track">
+      <span>ON ROBINHOOD CHAIN</span><span>FOR THE HOLDERS</span><span>ON ROBINHOOD CHAIN</span><span>FOR THE HOLDERS</span>
+      <span>ON ROBINHOOD CHAIN</span><span>FOR THE HOLDERS</span><span>ON ROBINHOOD CHAIN</span><span>FOR THE HOLDERS</span>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="wrap split">
+      <div class="split-copy reveal">
+        <div class="eyebrow">The Story</div>
+        <h2>Meet <span class="up">Neiro</span></h2>
+        <p class="lede">
+          When Robinhood launched its own chain, the question was not whether a Neiro would arrive,
+          but <strong>which Neiro would arrive first</strong>. This is the first real Neiro on Robinhood Chain,
+          carrying the same deployer as the ETH version that reached a $1.3B market cap.
+        </p>
+        <br>
+        <p class="lede">
+          No presale royalty. No insider bags. Just a dog, a chain built for the retail
+          trader, and a community that refuses to be exit liquidity.
+        </p>
+      </div>
+      <div class="split-art reveal">
+        <div class="art-card" data-tilt>
+          <!-- Original dog-on-chain emblem -->
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Neiro dog emblem on a token">
+            <defs>
+              <clipPath id="neiroCircleClip">
+                <circle cx="200" cy="200" r="165"/>
+              </clipPath>
+            </defs>
+            <circle cx="200" cy="200" r="165" fill="url(#gCoin)"/>
+            <circle cx="200" cy="200" r="165" fill="none" stroke="#03400f" stroke-width="6"/>
+            <circle cx="200" cy="200" r="146" fill="none" stroke="#03400f" stroke-width="2" stroke-dasharray="4 8"/>
+            <image href="assets/neiro%20circle.jpg" x="35" y="35" width="330" height="330" preserveAspectRatio="xMidYMid slice" clip-path="url(#neiroCircleClip)"/>
+          </svg>
+          <div class="art-caption">NEIRO Dog · Robinhood Chain · Block One Energy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOKEN ============ -->
+  <section id="token">
+    <div class="wrap split flip">
+      <div class="split-copy reveal">
+        <div class="eyebrow">The Token</div>
+        <h2>The <span class="gold">$NEIRO</span> Token</h2>
+        <p class="lede">
+          Built for the chain that was built for retail. $NEIRO trades on Uniswap v3 on
+          Robinhood Chain — <strong>the same deployer as the ETH Neiro, aiming for the same 1.3B market cap run.</strong>
+          Just the community and the pool.
+        </p>
+        <div class="stats">
+          <div class="stat reveal"><b>0/0</b><small>Buy / sell tax</small></div>
+          <div class="stat reveal"><b>UNI v3</b><small>Trades on Uniswap v3, Robinhood Chain</small></div>
+          <div class="stat reveal"><b>100%</b><small>Community-driven, no insider bags</small></div>
+          <div class="stat reveal"><b>1.3B</b><small>Target path from the ETH Neiro playbook</small></div>
+        </div>
+        <div class="ca-bar reveal" style="justify-content:flex-start;margin-top:30px">
+          <span class="ca-label">CA</span>
+          <code>0x00aF23339838240bA3bb42E424936B521d31041f</code>
+          <button class="copy-btn copy-btn-2" type="button">Copy</button>
+        </div>
+        <div class="hero-ctas reveal" style="justify-content:flex-start;margin-top:26px">
+          <button class="btn btn-green" data-swap>⇅ Swap on Uniswap v3</button>
+        </div>
+      </div>
+      <div class="split-art reveal">
+        <div class="art-card" data-tilt>
+          <!-- Original candle-chart art -->
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Green candlestick chart going up">
+            <!-- axis -->
+            <line x1="40" y1="20" x2="40" y2="350" stroke="#1c2b26" stroke-width="3"/>
+            <line x1="40" y1="350" x2="380" y2="350" stroke="#1c2b26" stroke-width="3"/>
+            <g stroke="#13221c" stroke-width="1.5">
+              <line x1="40" y1="90" x2="380" y2="90"/><line x1="40" y1="155" x2="380" y2="155"/>
+              <line x1="40" y1="220" x2="380" y2="220"/><line x1="40" y1="285" x2="380" y2="285"/>
+            </g>
+            <!-- candles -->
+            <g stroke-linecap="round">
+              <line x1="80" y1="250" x2="80" y2="330" stroke="#FF5000" stroke-width="4"/>
+              <rect x="66" y="268" width="28" height="46" rx="4" fill="#FF5000"/>
+              <line x1="130" y1="230" x2="130" y2="316" stroke="#00C805" stroke-width="4"/>
+              <rect x="116" y="244" width="28" height="58" rx="4" fill="#00C805"/>
+              <line x1="180" y1="180" x2="180" y2="280" stroke="#00C805" stroke-width="4"/>
+              <rect x="166" y="196" width="28" height="66" rx="4" fill="#00C805"/>
+              <line x1="230" y1="196" x2="230" y2="262" stroke="#FF5000" stroke-width="4"/>
+              <rect x="216" y="210" width="28" height="36" rx="4" fill="#FF5000"/>
+              <line x1="280" y1="110" x2="280" y2="236" stroke="#00C805" stroke-width="4"/>
+              <rect x="266" y="128" width="28" height="88" rx="4" fill="#00C805"/>
+              <line x1="330" y1="40" x2="330" y2="170" stroke="#00C805" stroke-width="4"/>
+              <rect x="316" y="58" width="28" height="94" rx="4" fill="#00C805"/>
+            </g>
+            <!-- dog paw at the top of the last candle -->
+            <g transform="translate(330,36)">
+              <ellipse cx="0" cy="6" rx="14" ry="11" fill="#d9a35e" stroke="#8a5a2b" stroke-width="3"/>
+              <circle cx="-11" cy="-8" r="5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2.5"/>
+              <circle cx="0" cy="-11" r="5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2.5"/>
+              <circle cx="11" cy="-8" r="5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2.5"/>
+            </g>
+            <!-- sparkle -->
+            <g fill="#3BE477">
+              <path d="M360 24 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z"/>
+              <path d="M70 60 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z" opacity=".7"/>
+            </g>
+          </svg>
+          <div class="art-caption">Chart Pattern: Ascending Doggo · Very Bullish</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHART ============ -->
+  <section id="chart">
+    <div class="wrap">
+      <div class="eyebrow">Live Data</div>
+      <h2 class="reveal">The <span class="up">Chart</span></h2>
+      <p class="lede reveal">Live from DexScreener — $NEIRO on Robinhood Chain. The real Neiro on this chain, with the same deployer as ETH.</p>
+      <div class="chart-shell reveal">
+        <div class="chart-head">
+          <span class="pair">▲ NEIRO / ROBINHOOD CHAIN</span>
+          <a href="https://dexscreener.com/robinhood/0x78a851d19e2152bb7162d8924cb2bd088aca95c8" target="_blank" rel="noopener">Open on DexScreener ↗</a>
+        </div>
+        <div id="dexscreener-embed">
+          <iframe
+            src="https://dexscreener.com/robinhood/0x78a851d19e2152bb7162d8924cb2bd088aca95c8?embed=1&theme=dark&trades=0&info=0"
+            title="NEIRO chart on DexScreener" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CREED ============ -->
+  <section id="creed">
+    <div class="wrap">
+      <div class="eyebrow" style="display:flex;justify-content:center">The Holder's Creed</div>
+      <div class="creed-lines">
+        <p class="creed-line">We were the exit liquidity.</p>
+        <p class="creed-line">We were the ones who bought the top.</p>
+        <p class="creed-line">Now the chain belongs to retail —</p>
+        <p class="creed-line">and its first dog belongs to <span style="color:var(--green)">us.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section id="testimonials">
+    <div class="wrap">
+      <div class="eyebrow">Meme Reviews</div>
+      <h2 class="reveal">The <span class="up">vibes</span> are immaculate</h2>
+      <p class="lede reveal">Completely  100% unserious, and somehow still more convincing than most market analysis.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal" data-tilt>
+          <div class="testimonial-top">
+            <div class="testimonial-avatar"><img src="assets/chad.png" alt="Chad" /></div>
+            <div>
+              <div class="testimonial-name">Chad</div>
+              <div class="testimonial-role">19 · parking lot strategist</div>
+            </div>
+          </div>
+          <p>“I bought $NEIRO because my toaster said the chart looked ‘emotionally available.’”</p>
+          <span>— Chad, 19, from a parking lot</span>
+        </div>
+        <div class="testimonial-card reveal" data-tilt>
+          <div class="testimonial-top">
+            <div class="testimonial-avatar"><img src="assets/marcy.png" alt="Marcy" /></div>
+            <div>
+              <div class="testimonial-name">Marcy</div>
+              <div class="testimonial-role">31 · full-time ape</div>
+            </div>
+          </div>
+          <p>“I don’t know what a deployer is, but if it’s the same one as ETH, I’m calling it destiny and buying the dip.”</p>
+          <span>— Marcy, 31, full-time ape</span>
+        </div>
+        <div class="testimonial-card reveal" data-tilt>
+          <div class="testimonial-top">
+            <div class="testimonial-avatar"><img src="assets/vlad.png" alt="Vlad" /></div>
+            <div>
+              <div class="testimonial-name">Vlad</div>
+              <div class="testimonial-role">Imaginary group chat legend</div>
+            </div>
+          </div>
+          <p>“Vlad Tenev, in a completely unserious meme quote: ‘If the chart goes up, I’m not saying it was me, but I would absolutely celebrate it with a very expensive coffee.’”</p>
+          <span>— Vlad’s imaginary group chat</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW TO BUY ============ -->
+  <section id="buy">
+    <div class="wrap">
+      <div class="eyebrow">How to Buy</div>
+      <h2 class="reveal">Three steps to <span class="up">$NEIRO</span></h2>
+      <p class="lede reveal">From zero to first real Neiro holder in a few minutes:</p>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-badge">1</div>
+          <h3>Get a Wallet</h3>
+          <p>Set up MetaMask, Rabby, or your wallet of choice and add the Robinhood Chain network. Guard your seed phrase with your life.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-badge">2</div>
+          <h3>Bridge to Robinhood Chain</h3>
+          <p>Move ETH onto Robinhood Chain using the official bridge. This is the gas and ammo for your swap.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-badge">3</div>
+          <h3>Swap on Uniswap v3</h3>
+          <p>Open the swap, paste the official contract, and trade ETH for $NEIRO. Then hold like the chain depends on it.</p>
+          <a class="step-link" data-swap>Open the swap →</a>
+        </div>
+      </div>
+      <div class="hero-ctas reveal" style="justify-content:flex-start;margin-top:40px">
+        <button class="btn btn-green" data-swap>⇅ Buy $NEIRO now</button>
+        <a class="btn btn-ghost" href="https://dexscreener.com/robinhood/0x78a851d19e2152bb7162d8924cb2bd088aca95c8" target="_blank" rel="noopener">📈 DexScreener</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMMUNITY ============ -->
+  <section id="community">
+    <div class="wrap split">
+      <div class="split-copy reveal">
+        <div class="eyebrow">Community</div>
+        <h2>Join the <span class="up">holders</span></h2>
+        <p class="lede">
+          Every chain needs its dog, and every dog needs its pack. Memes, alpha, and
+          diamond-hand therapy — <strong>the timeline is greener on this side.</strong>
+        </p>
+        <div class="socials">
+          <a class="social-card reveal" href="https://x.com/neirorobinhood" target="_blank" rel="noopener">
+            <span class="social-icon">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </span>
+            <span><b>Follow on X</b><small>@neirorobinhood — news &amp; memes</small></span>
+          </a>
+          <a class="social-card reveal" href="https://t.me/NeiroRobinhood" target="_blank" rel="noopener">
+            <span class="social-icon">
+              <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.5.5 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </span>
+            <span><b>Join Telegram</b><small>t.me/NeiroRobinhood — the pack</small></span>
+          </a>
+        </div>
+      </div>
+      <div class="split-art reveal">
+        <div class="art-card" data-tilt>
+          <!-- Original "pack" art: rising bars of paws -->
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Community holding the line">
+            <defs>
+              <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3BE477"/><stop offset="100%" stop-color="#067A1E"/>
+              </linearGradient>
+            </defs>
+            <g stroke="#03400f" stroke-width="4">
+              <rect x="52"  y="250" width="56" height="110" rx="12" fill="url(#bar)"/>
+              <rect x="124" y="200" width="56" height="160" rx="12" fill="url(#bar)"/>
+              <rect x="196" y="150" width="56" height="210" rx="12" fill="url(#bar)"/>
+              <rect x="268" y="90"  width="56" height="270" rx="12" fill="url(#bar)"/>
+            </g>
+            <!-- paws on top of each bar -->
+            <g>
+              <g transform="translate(80,238)">
+                <ellipse cx="0" cy="4" rx="13" ry="10" fill="#d9a35e" stroke="#8a5a2b" stroke-width="3"/>
+                <circle cx="-10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="0" cy="-11" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+              </g>
+              <g transform="translate(152,188)">
+                <ellipse cx="0" cy="4" rx="13" ry="10" fill="#d9a35e" stroke="#8a5a2b" stroke-width="3"/>
+                <circle cx="-10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="0" cy="-11" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+              </g>
+              <g transform="translate(224,138)">
+                <ellipse cx="0" cy="4" rx="13" ry="10" fill="#d9a35e" stroke="#8a5a2b" stroke-width="3"/>
+                <circle cx="-10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="0" cy="-11" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+              </g>
+              <g transform="translate(296,78)">
+                <ellipse cx="0" cy="4" rx="13" ry="10" fill="#d9a35e" stroke="#8a5a2b" stroke-width="3"/>
+                <circle cx="-10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="0" cy="-11" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+                <circle cx="10" cy="-8" r="4.5" fill="#d9a35e" stroke="#8a5a2b" stroke-width="2"/>
+              </g>
+            </g>
+            <path d="M60 40 q60 30 120 18 t150 20" fill="none" stroke="#EAF2EC" stroke-width="3" stroke-dasharray="6 8" opacity=".5"/>
+            <text x="200" y="392" text-anchor="middle" font-family="JetBrains Mono" font-size="15" fill="#93A29A" letter-spacing="4">PAWS ONLY GO UP</text>
+          </svg>
+          <div class="art-caption">The Pack · Holding the Line Since Block One</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>DOGE SISTER</span><span>$NEIRO</span><span>DOGE SISTER</span><span>$NEIRO</span>
+      <span>DOGE SISTER</span><span>$NEIRO</span><span>DOGE SISTER</span><span>$NEIRO</span>
+      <span>DOGE SISTER</span><span>$NEIRO</span><span>DOGE SISTER</span><span>$NEIRO</span>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <a class="brand" href="#hero">
+        <span class="brand-mark">N</span>
+        <span class="brand-name">Neiro <span>Robinhood</span></span>
+      </a>
+      <p class="foot-note">
+        The first real Neiro on Robinhood Chain. Same deployer as the ETH version,
+        aiming for the same 1.3B path. Powered by the pack.
+      </p>
+    </div>
+    <div class="foot-links">
+      <a href="#about">About</a>
+      <a href="#token">Token</a>
+      <a href="#chart">Chart</a>
+      <a href="#buy">How to Buy</a>
+      <a href="https://x.com/neirorobinhood" target="_blank" rel="noopener">X / Twitter</a>
+      <a href="https://t.me/NeiroRobinhood" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://dexscreener.com/robinhood/0x78a851d19e2152bb7162d8924cb2bd088aca95c8" target="_blank" rel="noopener">DexScreener</a>
+    </div>
+  </div>
+  <div class="legal">
+    <span>© 2026 NEIRO ROBINHOOD.</span>
+    <span>$NEIRO IS A MEME COIN WITH NO INTRINSIC VALUE. NOT FINANCIAL ADVICE. DYOR.</span>
+  </div>
+</footer>
+
+<!-- ============ SWAP MODAL ============ -->
+<div class="modal-overlay" id="swapModal" role="dialog" aria-modal="true" aria-label="Buy NEIRO on Uniswap">
+  <div class="modal">
+    <div class="modal-head">
+      <b>Buy <span>$NEIRO</span> · Uniswap v3</b>
+      <div class="modal-actions">
+        <a class="modal-open-link" href="https://app.uniswap.org/swap?outputCurrency=0x00aF23339838240bA3bb42E424936B521d31041f&chain=robinhood" target="_blank" rel="noopener">Open ↗</a>
+        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-fallback">
+        <span>Loading Uniswap…<br>If the swap doesn't appear, your browser may block embedded wallets.</span>
+        <a class="btn btn-green" href="https://app.uniswap.org/swap?outputCurrency=0x00aF23339838240bA3bb42E424936B521d31041f&chain=robinhood" target="_blank" rel="noopener">Open Uniswap in a new tab ↗</a>
+      </div>
+      <iframe id="swapFrame" title="Uniswap v3 swap" allow="clipboard-write; web3"></iframe>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="neiro-robinhood.js"></script>
 </body>
 </html>
