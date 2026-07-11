@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Neiro Mining — Soon</title>
+  <meta name="description" content="Mining for $NEIRO is coming soon on Robinhood Chain." />
+  <link rel="icon" type="image/jpeg" href="assets/neiro%20circle.jpg" />
+  <link rel="stylesheet" href="neiro-robinhood.css?v=20260711b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body{min-height:100vh}
+    .soon-page{min-height:100vh;display:grid;place-items:center;padding:clamp(24px,6vw,48px)}
+    .soon-card{position:relative;z-index:10;max-width:760px;width:100%;padding:clamp(28px,5vw,56px);border:1px solid rgba(0,200,5,.22);border-radius:28px;background:rgba(6,8,11,.82);box-shadow:0 24px 70px rgba(0,0,0,.36);backdrop-filter:blur(16px)}
+    .soon-card h1{font-size:clamp(34px,5vw,58px);margin-bottom:16px}
+    .soon-card p{font-size:clamp(16px,1.4vw,20px);color:var(--dim);max-width:60ch}
+    .soon-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+    .soon-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;border:1px solid rgba(0,200,5,.24);background:rgba(0,200,5,.1);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:22px}
+    .soon-badge .live-dot{width:10px;height:10px;background:var(--green);box-shadow:0 0 12px rgba(0,200,5,.8)}
+  </style>
+</head>
+<body>
+  <canvas id="webgl"></canvas>
+  <div class="grid"></div>
+  <nav id="nav">
+    <a class="brand" href="neiro-robinhood.html">
+      <span class="brand-mark">N</span>
+      <span class="brand-name">Neiro On <span>Robinhood</span></span>
+    </a>
+  </nav>
+
+  <main class="soon-page">
+    <section class="soon-card reveal">
+      <div class="soon-badge"><span class="live-dot"></span> Mining</div>
+      <h1>Mining is coming soon</h1>
+      <p>The staking and miner experience is still being built. When it launches, holders will be able to lock $NEIRO, buy miners, and earn rewards on a flexible schedule.</p>
+      <div class="soon-actions">
+        <a class="btn btn-green" href="neiro-robinhood.html">Back to home</a>
+        <a class="btn btn-ghost" href="neiro-robinhood.html#community">Join the community</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
