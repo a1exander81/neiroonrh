@@ -448,10 +448,10 @@
     </div>
     <div class="modal-body">
       <div class="modal-fallback">
-        <span>Loading Uniswap…<br>If the swap doesn't appear, your browser may block embedded wallets.</span>
-        <a class="btn btn-green" href="https://app.uniswap.org/swap?outputCurrency=0x00aF23339838240bA3bb42E424936B521d31041f&chain=robinhood" target="_blank" rel="noopener">Open Uniswap in a new tab ↗</a>
+        <span>Uniswap embeds are blocked in this browser.<br>Open the swap directly in a new tab to continue.</span>
+        <a class="btn btn-green" href="https://app.uniswap.org/swap?outputCurrency=0x00aF23339838240bA3bb42E424936B521d31041f&chain=robinhood" target="_blank" rel="noopener">Open Uniswap ↗</a>
+        <button class="btn btn-ghost" id="modalContinue" type="button">Close</button>
       </div>
-      <iframe id="swapFrame" title="Uniswap v3 swap" allow="clipboard-write; web3"></iframe>
     </div>
   </div>
 </div>

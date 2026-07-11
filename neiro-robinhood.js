@@ -270,14 +270,13 @@
 
   /* ================= Swap modal ================= */
   const modal = document.getElementById('swapModal');
-  const frame = document.getElementById('swapFrame');
   const closeBtn = document.getElementById('modalClose');
-  let frameLoaded = false;
+  const modalContinueBtn = document.getElementById('modalContinue');
 
   function openModal(){
-    if(!frameLoaded){ frame.src = SWAP_URL; frameLoaded = true; }  // lazy-load
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    window.open(SWAP_URL, '_blank', 'noopener,noreferrer');
   }
   function closeModal(){
     modal.classList.remove('open');
@@ -287,6 +286,7 @@
     el.addEventListener('click', e => { e.preventDefault(); openModal(); });
   });
   closeBtn.addEventListener('click', closeModal);
+  if(modalContinueBtn) modalContinueBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
   window.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
