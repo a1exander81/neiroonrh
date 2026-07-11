@@ -3,47 +3,232 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Neiro Mining — Soon</title>
-  <meta name="description" content="Mining for $NEIRO is coming soon on Robinhood Chain." />
+  <title>Neiro Mining — Lock $NEIRO, Earn Dividends</title>
+  <meta name="description" content="Buy miners with $NEIRO, choose a lock tier, and earn a share of a transparent, capped reward stream on Robinhood Chain." />
   <link rel="icon" type="image/jpeg" href="assets/neiro%20circle.jpg" />
-  <link rel="stylesheet" href="neiro-robinhood.css?v=20260711b" />
+  <link rel="stylesheet" href="neiro-robinhood.css" />
+  <link rel="stylesheet" href="mining.css?v=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    body{min-height:100vh}
-    .soon-page{min-height:100vh;display:grid;place-items:center;padding:clamp(24px,6vw,48px)}
-    .soon-card{position:relative;z-index:10;max-width:760px;width:100%;padding:clamp(28px,5vw,56px);border:1px solid rgba(0,200,5,.22);border-radius:28px;background:rgba(6,8,11,.82);box-shadow:0 24px 70px rgba(0,0,0,.36);backdrop-filter:blur(16px)}
-    .soon-card h1{font-size:clamp(34px,5vw,58px);margin-bottom:16px}
-    .soon-card p{font-size:clamp(16px,1.4vw,20px);color:var(--dim);max-width:60ch}
-    .soon-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
-    .soon-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;border:1px solid rgba(0,200,5,.24);background:rgba(0,200,5,.1);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:22px}
-    .soon-badge .live-dot{width:10px;height:10px;background:var(--green);box-shadow:0 0 12px rgba(0,200,5,.8)}
-  </style>
 </head>
 <body>
-  <canvas id="webgl"></canvas>
   <div class="grid"></div>
+
   <nav id="nav">
     <a class="brand" href="neiro-robinhood.html">
       <span class="brand-mark">N</span>
       <span class="brand-name">Neiro On <span>Robinhood</span></span>
     </a>
+    <div class="nav-links" id="navLinks">
+      <a href="neiro-robinhood.html">Home</a>
+      <a href="neiro-robinhood.html#community">Community</a>
+      <button class="nav-cta" data-connect-wallet id="connectWallet">Connect Wallet</button>
+    </div>
   </nav>
 
-  <main class="soon-page">
-    <section class="soon-card reveal">
-      <div class="soon-badge"><span class="live-dot"></span> Mining</div>
-      <h1>Mining is coming soon</h1>
-      <p>The staking and miner experience is still being built. When it launches, holders will be able to lock $NEIRO, buy miners, and earn rewards on a flexible schedule.</p>
-      <div class="soon-actions">
-        <a class="btn btn-green" href="neiro-robinhood.html">Back to home</a>
-        <a class="btn btn-ghost" href="neiro-robinhood.html#community">Join the community</a>
-      </div>
-    </section>
+  <main class="mine-main">
+    <div class="mine-wrap">
+
+      <!-- Hero -->
+      <section class="mine-hero">
+        <span class="mine-live-badge"><span class="live-dot"></span> Mining is live</span>
+        <h1>Buy miners. Lock a tier. <span class="up">Earn real dividends.</span></h1>
+        <p class="lede">Every miner is $NEIRO you lock into the contract. The longer you lock it, the bigger your share of the reward stream — funded from a published, capped emission schedule, never from other users' deposits.</p>
+
+        <div class="mine-hero-actions">
+          <button class="btn btn-green" data-connect-wallet id="connectWalletHero">Connect Wallet</button>
+          <a class="btn btn-ghost" href="#buy">View tiers &amp; buy</a>
+          <a class="btn btn-ghost" href="#trust">Read the contract audit notes</a>
+        </div>
+
+        <div class="mine-stat-strip">
+          <div class="mine-stat"><div class="label">Total Value Locked</div><div class="value" id="statTVL">—</div></div>
+          <div class="mine-stat"><div class="label">Total Hashpower</div><div class="value" id="statHashpower">—</div></div>
+          <div class="mine-stat"><div class="label">Reward Rate / Day</div><div class="value green" id="statRewardRate">—</div></div>
+          <div class="mine-stat"><div class="label">Your Wallet</div><div class="value" id="statWallet">Not connected</div></div>
+        </div>
+
+        <div class="mine-banner" id="notDeployedBanner">
+          <span>⚙️</span>
+          <span><strong>Preview mode.</strong> The mining contract address isn't configured in this build yet — the dashboard below is fully wired and will go live the moment <code>mining.js</code> is pointed at the deployed <code>NeiroMiner</code> address.</span>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section class="mine-section">
+        <h2>How mining works</h2>
+        <p class="section-sub">No literal hardware, no electricity bill — "mining" here means locking $NEIRO into the contract to claim a share of its reward stream. Pick your commitment, the contract handles the rest.</p>
+        <div class="mine-steps">
+          <div class="mine-step">
+            <div class="num">1</div>
+            <h3>Buy miners</h3>
+            <p>Spend $NEIRO to open a position. A 3% fee applies (split to liquidity/burn, the platform, and the ecosystem wallet) — the rest becomes your locked principal.</p>
+          </div>
+          <div class="mine-step">
+            <div class="num">2</div>
+            <h3>Pick a lock tier</h3>
+            <p>24 hours, 3 days, 1 week, or 1 month. Longer locks earn a bigger multiplier on your hashpower — a larger share of the same reward stream, not a bigger total pool.</p>
+          </div>
+          <div class="mine-step">
+            <div class="num">3</div>
+            <h3>Earn &amp; claim</h3>
+            <p>Rewards accrue every second based on your share of total hashpower. Claim anytime for a 3% fee, or unstake principal after maturity for free.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Buy panel -->
+      <section class="mine-section" id="buy">
+        <h2>Buy miners</h2>
+        <p class="section-sub">Choose a lock tier and amount. The breakdown below updates live before you sign anything.</p>
+
+        <div class="mine-buy-grid">
+          <div>
+            <div class="mine-tiers" id="tierPicker">
+              <button class="mine-tier active" data-tier="0">
+                <div class="tier-label">24 Hours</div>
+                <div class="tier-mult">1.00x hashpower</div>
+              </button>
+              <button class="mine-tier" data-tier="1">
+                <div class="tier-label">3 Days</div>
+                <div class="tier-mult">1.20x hashpower</div>
+              </button>
+              <button class="mine-tier" data-tier="2">
+                <div class="tier-label">1 Week</div>
+                <div class="tier-mult">1.50x hashpower</div>
+              </button>
+              <button class="mine-tier" data-tier="3">
+                <div class="tier-label">1 Month</div>
+                <div class="tier-mult">2.00x hashpower</div>
+              </button>
+            </div>
+            <div class="mine-early-warning show" id="earlyWarning">
+              Unstaking <strong>before</strong> your lock matures costs a 10% early-exit penalty (3% goes to the standard fee split, 7% is redistributed to stakers who stay). Unstaking after maturity is fee-free.
+            </div>
+          </div>
+
+          <div class="mine-form-card">
+            <label for="buyAmount">Amount of $NEIRO</label>
+            <div class="mine-input-row">
+              <input id="buyAmount" type="number" min="0" step="any" placeholder="0.0" />
+              <button id="maxBtn" type="button">MAX</button>
+            </div>
+
+            <div class="mine-breakdown">
+              <div class="row"><span>Buy fee (3%)</span><span id="bdFee">0.00</span></div>
+              <div class="row"><span>&nbsp;&nbsp;→ LP / burn (1%)</span><span id="bdLp">0.00</span></div>
+              <div class="row"><span>&nbsp;&nbsp;→ Platform (1%)</span><span id="bdOwner">0.00</span></div>
+              <div class="row"><span>&nbsp;&nbsp;→ Ecosystem (1%)</span><span id="bdEco">0.00</span></div>
+              <div class="row total"><span>Locked principal</span><span id="bdPrincipal">0.00</span></div>
+              <div class="row total"><span>Hashpower earned</span><span id="bdHashpower">0.00</span></div>
+            </div>
+
+            <button class="btn btn-green" id="buyBtn">Connect wallet to buy</button>
+            <p class="mine-form-note">Fees are fixed on-chain and cannot be changed after deployment.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Your miners -->
+      <section class="mine-section">
+        <h2>Your miners</h2>
+        <p class="section-sub">Every position you've opened, its lock status, and what it's earning.</p>
+
+        <div class="mine-claim-card">
+          <div>
+            <div class="cc-label">Pending dividends</div>
+            <div class="cc-value" id="pendingRewards">0.0000 $NEIRO</div>
+          </div>
+          <button class="btn btn-green" id="claimBtn">Connect wallet to claim</button>
+        </div>
+
+        <div class="mine-positions" id="positionsList">
+          <div class="mine-empty">Connect your wallet to see your miner positions.</div>
+        </div>
+      </section>
+
+      <!-- Pairs showcase -->
+      <section class="mine-section">
+        <h2>What your miners are hashing</h2>
+        <p class="section-sub">The theme behind the reward stream — a curated basket the Neiro community is watching, from memes to tokenized equities landing on Robinhood Chain.</p>
+        <div class="mine-pairs">
+          <div class="mine-pair"><div class="pair-icon">N</div><div class="pair-name">$NEIRO</div><div class="pair-tag">Home base</div></div>
+          <div class="mine-pair"><div class="pair-icon">D</div><div class="pair-name">$DOGE</div><div class="pair-tag">Meme</div></div>
+          <div class="mine-pair"><div class="pair-icon">P</div><div class="pair-name">$PEPE</div><div class="pair-tag">Meme</div></div>
+          <div class="mine-pair"><div class="pair-icon">S</div><div class="pair-name">SPCX</div><div class="pair-tag">Tokenized equity</div></div>
+          <div class="mine-pair"><div class="pair-icon">V</div><div class="pair-name">NVDA</div><div class="pair-tag">Tokenized equity</div></div>
+          <div class="mine-pair"><div class="pair-icon">B</div><div class="pair-name">$BONK</div><div class="pair-tag">Meme</div></div>
+        </div>
+        <p class="mine-pairs-note">v1 note: this panel is thematic — it doesn't yet route rewards through live trading of these pairs. Rewards are funded by the published emission schedule described below. Real trading-fee integration is a future phase, not a claim made about today's contract.</p>
+      </section>
+
+      <!-- Trust / transparency -->
+      <section class="mine-section" id="trust">
+        <h2>Built to be checked, not trusted</h2>
+        <p class="section-sub">Everything below is verifiable on-chain — don't take our word for it, read the contract.</p>
+        <div class="mine-trust-grid">
+          <div class="mine-trust-card">
+            <h4>Where yield comes from</h4>
+            <p>Rewards are paid from a capped stream the platform funds up front (<code>notifyRewardAmount</code>) plus forfeited principal from early exits. The contract cannot promise more than it actually holds — enforced by a solvency check on every funding call, not by trust.</p>
+          </div>
+          <div class="mine-trust-card">
+            <h4>What the owner can and can't do</h4>
+            <ul>
+              <li>Can: add more reward funding, pause new deposits in an emergency</li>
+              <li>Can't: touch your locked principal, redirect fee wallets, upgrade or replace the contract</li>
+            </ul>
+          </div>
+          <div class="mine-trust-card">
+            <h4>Fee structure (fixed on-chain)</h4>
+            <ul>
+              <li>Buy miners: 3% — 1% LP/burn, 1% platform, 1% ecosystem</li>
+              <li>Claim dividends: 3% — same split</li>
+              <li>Unstake before maturity: 10% — 3% standard split, 7% to remaining stakers</li>
+              <li>Unstake after maturity: 0%</li>
+            </ul>
+          </div>
+          <div class="mine-trust-card">
+            <h4>Fee wallets</h4>
+            <p>LP/burn: <code id="lpWalletAddr">0x78a851D19E2152bB7162d8924CB2Bd088aca95C8</code></p>
+            <p>Platform: <code id="ownerWalletAddr">0xc2413696576176d1e31D55a2DEdA609906a15596</code></p>
+            <p>Ecosystem: <code id="ecoWalletAddr">0x13864051772FDFBce895d21a483eee02edaeB445</code></p>
+          </div>
+          <div class="mine-trust-card">
+            <h4>Contract</h4>
+            <p>Address: <code id="contractAddr">Not yet deployed</code></p>
+            <p>Non-upgradeable. Reentrancy-guarded. Tested against random buy/claim/unstake sequences, fee-on-transfer tokens, and a simulated hostile-token reentrancy attack before launch.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mine-section">
+        <h2>FAQ</h2>
+        <div class="mine-faq">
+          <details class="mine-faq-item">
+            <summary>What happens if I unstake early?</summary>
+            <div class="faq-body">You forfeit 10% of your principal instead of 0%. 3% of that follows the normal fee split; the other 7% stays in the contract and immediately boosts the reward stream for everyone who kept their lock.</div>
+          </details>
+          <details class="mine-faq-item">
+            <summary>Can the yield run out?</summary>
+            <div class="faq-body">The reward rate is bounded by what's actually funded on-chain — when a funding period ends, rewards stop accruing until the platform opens a new one. The dashboard's Reward Rate / Day figure always reflects the live, on-chain rate, not a promise.</div>
+          </details>
+          <details class="mine-faq-item">
+            <summary>Is this the same as other "miner" token games?</summary>
+            <div class="faq-body">No — those typically pay existing holders directly from new buyers' deposits, which only works as long as new deposits keep growing. This contract pays from a bounded, published emission schedule instead, so payouts are never contingent on new buyers showing up.</div>
+          </details>
+          <details class="mine-faq-item">
+            <summary>Can the team change the fees or rug the contract?</summary>
+            <div class="faq-body">Fee percentages and fee wallets are immutable constants in the contract — they cannot be changed post-deployment. The owner can add reward funding and pause new deposits, but has no function to withdraw user principal or the reward pool.</div>
+          </details>
+        </div>
+      </section>
+
+    </div>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" type="application/javascript"></script>
+  <script src="mining.js?v=1"></script>
 </body>
 </html>

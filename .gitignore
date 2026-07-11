@@ -24,3 +24,11 @@ config.local.*
 
 # Logs
 *.log
+
+# Contracts (Hardhat)
+contracts/node_modules/
+contracts/artifacts/
+contracts/cache/
+contracts/coverage/
+contracts/coverage.json
+contracts/typechain-types/

@@ -1,0 +1,149 @@
+/* Mining dashboard — builds on the shared tokens defined in neiro-robinhood.css */
+
+/* This page has no hamburger toggle (mining.js doesn't load the home page's
+   nav-toggle script), so keep nav links visible instead of inheriting the
+   home page's "display:none until toggled" mobile rule. */
+@media(max-width:760px){
+  #nav .nav-links{
+    display:flex;position:static;flex-direction:row;align-items:center;gap:12px;
+    padding:0;border:none;background:none;backdrop-filter:none;box-shadow:none;
+  }
+  #nav .nav-links a{display:none}
+  #nav{flex-wrap:wrap;row-gap:10px}
+}
+
+.mine-main{position:relative;z-index:10;padding:calc(72px + clamp(24px,6vw,64px)) clamp(18px,4vw,56px) 80px}
+.mine-wrap{max-width:1180px;margin:0 auto}
+
+.mine-live-badge{
+  display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;align-self:flex-start;
+  border:1px solid rgba(0,200,5,.24);background:rgba(0,200,5,.1);
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);
+}
+
+.mine-hero{display:flex;flex-direction:column;gap:22px;padding-bottom:48px;border-bottom:1px solid var(--line)}
+.mine-hero h1{font-size:clamp(34px,5vw,58px)}
+.mine-hero h1 .up{color:var(--green);text-shadow:0 0 40px rgba(0,200,5,.4)}
+.mine-hero p.lede{margin-top:4px}
+.mine-hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
+
+.mine-stat-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:28px}
+.mine-stat{
+  border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+  background:linear-gradient(160deg,var(--panel),var(--bg-2) 70%);
+}
+.mine-stat .label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.mine-stat .value{font-family:'JetBrains Mono',monospace;font-size:clamp(18px,2.2vw,24px);color:var(--text);margin-top:6px;font-weight:600}
+.mine-stat .value.green{color:var(--green-soft)}
+
+.mine-banner{
+  display:flex;align-items:center;gap:12px;margin-top:24px;padding:14px 18px;border-radius:14px;
+  border:1px solid rgba(255,172,58,.35);background:rgba(255,172,58,.08);color:var(--gold-hot);
+  font-size:14px;
+}
+.mine-banner.hidden{display:none}
+.mine-banner strong{color:var(--text)}
+
+.mine-section{padding:56px 0;border-bottom:1px solid var(--line)}
+.mine-section:last-of-type{border-bottom:none}
+.mine-section h2{font-size:clamp(24px,3vw,34px);margin-bottom:8px}
+.mine-section .section-sub{color:var(--dim);max-width:62ch;margin-bottom:32px;font-weight:300}
+
+/* How it works */
+.mine-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.mine-step{border:1px solid var(--line);border-radius:18px;padding:24px;background:var(--panel)}
+.mine-step .num{
+  width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:var(--green-dim);color:var(--green-soft);font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:14px;
+}
+.mine-step h3{font-family:'Fredoka',sans-serif;font-size:18px;margin-bottom:8px}
+.mine-step p{color:var(--dim);font-size:14.5px;font-weight:300}
+
+/* Buy panel */
+.mine-buy-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
+@media(max-width:860px){.mine-buy-grid{grid-template-columns:1fr}}
+
+.mine-tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.mine-tier{
+  border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;background:var(--bg-2);
+  transition:border-color .2s,transform .2s;text-align:left;color:var(--text);font-family:inherit;
+}
+.mine-tier:hover{transform:translateY(-2px);border-color:rgba(0,200,5,.4)}
+.mine-tier.active{border-color:var(--green);background:rgba(0,200,5,.08);box-shadow:0 0 0 1px var(--green) inset}
+.mine-tier .tier-label{font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px}
+.mine-tier .tier-mult{font-family:'JetBrains Mono',monospace;color:var(--green-soft);font-size:13px;margin-top:4px}
+
+.mine-form-card{border:1px solid var(--line);border-radius:20px;padding:26px;background:linear-gradient(160deg,var(--panel),var(--bg-2) 70%)}
+.mine-form-card label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.mine-input-row{display:flex;gap:10px;margin-bottom:18px}
+.mine-input-row input{
+  flex:1;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:16px;
+}
+.mine-input-row input:focus{outline:none;border-color:var(--green)}
+.mine-input-row button{
+  border:1px solid var(--line);background:var(--bg-2);color:var(--dim);border-radius:12px;padding:0 16px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;cursor:pointer;
+}
+.mine-input-row button:hover{color:var(--green);border-color:var(--green)}
+
+.mine-breakdown{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;padding:16px;border-radius:14px;background:rgba(0,200,5,.04);border:1px dashed var(--line)}
+.mine-breakdown .row{display:flex;justify-content:space-between;font-size:13.5px;color:var(--dim)}
+.mine-breakdown .row.total{color:var(--text);font-weight:600;border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.mine-breakdown .row span:last-child{font-family:'JetBrains Mono',monospace;color:var(--text)}
+
+.mine-form-card .btn{width:100%;justify-content:center}
+.mine-form-note{font-size:12.5px;color:var(--dim);margin-top:12px;text-align:center}
+
+/* Positions */
+.mine-positions{display:flex;flex-direction:column;gap:14px}
+.mine-position{
+  display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;
+  border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--panel);
+}
+@media(max-width:700px){.mine-position{grid-template-columns:1fr;text-align:left}}
+.mine-position .pp-main .pp-amount{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--text)}
+.mine-position .pp-main .pp-meta{font-size:12.5px;color:var(--dim);margin-top:4px}
+.mine-position .pp-status{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.pp-status.locked{background:rgba(232,179,60,.12);color:var(--gold-hot);border:1px solid rgba(232,179,60,.3)}
+.pp-status.matured{background:rgba(0,200,5,.12);color:var(--green-soft);border:1px solid rgba(0,200,5,.3)}
+.mine-position .pp-actions{display:flex;gap:8px}
+.mine-position .pp-actions button{
+  border-radius:10px;padding:9px 14px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:var(--bg-2);color:var(--text);
+}
+.mine-position .pp-actions button.primary{background:var(--green);color:var(--ink);border:none}
+.mine-position .pp-actions button:hover{border-color:var(--green)}
+.mine-empty{color:var(--dim);font-size:14px;padding:24px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+
+.mine-claim-card{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;border:1px solid var(--line);border-radius:16px;padding:20px 24px;margin-bottom:20px;background:linear-gradient(160deg,var(--panel),var(--bg-2) 70%)}
+.mine-claim-card .cc-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.mine-claim-card .cc-value{font-family:'JetBrains Mono',monospace;font-size:clamp(20px,2.6vw,28px);color:var(--green-soft);margin-top:4px}
+
+/* Pairs showcase */
+.mine-pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.mine-pair{border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;background:var(--bg-2);transition:transform .2s}
+.mine-pair:hover{transform:translateY(-3px);border-color:rgba(0,200,5,.4)}
+.mine-pair .pair-icon{width:44px;height:44px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(145deg,var(--green-soft),var(--green));display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-weight:900;color:var(--ink)}
+.mine-pair .pair-name{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text)}
+.mine-pair .pair-tag{font-size:11px;color:var(--dim);margin-top:2px}
+.mine-pairs-note{margin-top:18px;font-size:12.5px;color:var(--dim);font-style:italic}
+
+/* Trust / transparency */
+.mine-trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.mine-trust-card{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--panel)}
+.mine-trust-card h4{font-family:'Fredoka',sans-serif;font-size:15px;margin-bottom:8px;color:var(--green-soft)}
+.mine-trust-card p, .mine-trust-card ul{color:var(--dim);font-size:13.5px;font-weight:300;line-height:1.65}
+.mine-trust-card code{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-hot);word-break:break-all}
+.mine-trust-card ul{padding-left:18px;margin-top:6px}
+
+/* FAQ */
+.mine-faq{display:flex;flex-direction:column;gap:10px}
+.mine-faq-item{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.mine-faq-item summary{padding:16px 20px;cursor:pointer;font-family:'Fredoka',sans-serif;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.mine-faq-item summary::-webkit-details-marker{display:none}
+.mine-faq-item summary::after{content:'+';color:var(--green);font-size:20px}
+.mine-faq-item[open] summary::after{content:'\2212'}
+.mine-faq-item .faq-body{padding:0 20px 18px;color:var(--dim);font-size:14px;font-weight:300}
+
+.mine-early-warning{display:none;margin-top:10px;padding:10px 14px;border-radius:10px;background:rgba(255,80,0,.1);border:1px solid rgba(255,80,0,.35);color:#FF8A5C;font-size:12.5px}
+.mine-early-warning.show{display:block}
