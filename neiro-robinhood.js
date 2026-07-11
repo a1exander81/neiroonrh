@@ -5,9 +5,11 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const CA = "0x00aF23339838240bA3bb42E424936B521d31041f";
+  const OWNER_ADDRESS = "0xc2413696576176d1e31D55a2DEdA609906a15596";
   const SWAP_URL = "https://app.uniswap.org/swap?outputCurrency=" + CA + "&chain=robinhood";
   const walletAddressEl = document.getElementById('walletAddress');
   const walletBalanceEl = document.getElementById('walletBalance');
+  const walletRoleEl = document.getElementById('walletRole');
   const walletNoteEl = document.getElementById('walletNote');
   const connectWalletBtn = document.getElementById('connectWallet');
   const refreshBalanceBtn = document.getElementById('refreshBalance');
@@ -18,6 +20,7 @@
   const TOKEN_ADDRESS = CA;
   const provider = window.ethereum ? new ethers.providers.Web3Provider(window.ethereum, 'any') : null;
   let signer = null;
+  let isOwner = false;
 
   async function setWalletMessage(message){
     if(walletNoteEl) walletNoteEl.textContent = message;
@@ -38,7 +41,11 @@
       const contract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, provider);
       const [decimals, rawBalance] = await Promise.all([contract.decimals(), contract.balanceOf(await signer.getAddress())]);
       walletBalanceEl.textContent = (await formatBalance(rawBalance, decimals)) + ' $NEIRO';
-      setWalletMessage('Connected to ' + chainName + '. Balance updated.');
+      if(isOwner){
+        setWalletMessage('Owner access granted. Admin controls will be available here for owner-only actions.');
+      } else {
+        setWalletMessage('Connected in read-only mode. Only the owner can operate the dapp controls.');
+      }
     }catch(err){
       walletBalanceEl.textContent = '0.0000 $NEIRO';
       setWalletMessage('Unable to read token balance on this network. Switch to Robinhood Chain.');
@@ -54,8 +61,12 @@
     try{
       await provider.send('eth_requestAccounts', []);
       signer = provider.getSigner();
-      const address = await signer.getAddress();
+      const address = (await signer.getAddress()).toLowerCase();
       walletAddressEl.textContent = address;
+      isOwner = address === OWNER_ADDRESS.toLowerCase();
+      if(walletRoleEl){
+        walletRoleEl.textContent = isOwner ? 'Owner' : 'Read-only';
+      }
       updateBalance();
     }catch(err){
       console.error('Wallet connect failed', err);
@@ -74,7 +85,12 @@
     window.ethereum.on('accountsChanged', async () => {
       if(provider){
         signer = provider.getSigner();
-        walletAddressEl.textContent = await signer.getAddress();
+        const address = (await signer.getAddress()).toLowerCase();
+        walletAddressEl.textContent = address;
+        isOwner = address === OWNER_ADDRESS.toLowerCase();
+        if(walletRoleEl){
+          walletRoleEl.textContent = isOwner ? 'Owner' : 'Read-only';
+        }
         updateBalance();
       }
     });
