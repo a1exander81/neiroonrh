@@ -7,7 +7,7 @@
   const CA = "0x00aF23339838240bA3bb42E424936B521d31041f";
   const OWNER_ADDRESS = "0xc2413696576176d1e31D55a2DEdA609906a15596";
   const SWAP_URL = "https://app.uniswap.org/swap?outputCurrency=" + CA + "&chain=robinhood";
-  const ROBINHOOD_CHAIN_ID = "0x1233";
+  const ROBINHOOD_CHAIN_ID = "0x1237";
   const ROBINHOOD_CHAIN_PARAMS = {
     chainId: ROBINHOOD_CHAIN_ID,
     chainName: "Robinhood Chain",

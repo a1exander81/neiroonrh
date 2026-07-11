@@ -14,7 +14,7 @@ module.exports = {
     },
     robinhoodChain: {
       url: process.env.ROBINHOOD_RPC_URL || "https://rpc.mainnet.chain.robinhood.com",
-      chainId: 4659, // 0x1233
+      chainId: 4663, // 0x1237
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
     },
   },

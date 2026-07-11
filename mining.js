@@ -5,8 +5,8 @@
   // Config — fill MINER_ADDRESS in after running contracts/scripts/deploy.js
   // ---------------------------------------------------------------------
   const NEIRO_TOKEN_ADDRESS = "0x00aF23339838240bA3bb42E424936B521d31041f";
-  const MINER_ADDRESS = ""; // e.g. "0x1234...": leave blank to run in preview mode
-  const ROBINHOOD_CHAIN_ID = "0x1233";
+  const MINER_ADDRESS = "0xE88403a8981933fFCe41085513Ae7dd7F78d37C1";
+  const ROBINHOOD_CHAIN_ID = "0x1237";
   const ROBINHOOD_CHAIN_PARAMS = {
     chainId: ROBINHOOD_CHAIN_ID,
     chainName: "Robinhood Chain",
@@ -96,7 +96,7 @@
     if (!window.ethereum || !provider) return false;
     try {
       const network = await provider.getNetwork();
-      if (network.chainId === 4659) return true;
+      if (network.chainId === 4663) return true;
       await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: ROBINHOOD_CHAIN_ID }] });
       return true;
     } catch (err) {
